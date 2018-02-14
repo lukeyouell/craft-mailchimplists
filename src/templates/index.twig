@@ -1,0 +1,40 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * MailChimp Lists plugin for Craft CMS 3.x
+ *
+ * MailChimp Lists index.twig
+ *
+ * @author    Luke Youell
+ * @copyright Copyright (c) 2018 Luke Youell
+ * @link      https://github.com/lukeyouell
+ * @package   MailchimpLists
+ * @since     0.1.0
+ */
+#}
+
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("lukeyouell\\mailchimplists\\assetbundles\\mailchimplists\\MailchimpListsAsset") %}
+{% do view.registerAssetBundle("lukeyouell\\mailchimplists\\assetbundles\\indexcpsection\\IndexCPSectionAsset") %}
+
+{% set docsUrl = "https://github.com/craft-mailchimplists/mail-chimp-lists/blob/master/README.md" %}
+
+{% set title = "MailChimp Lists" %}
+
+{% set pluginCpUrl = url('mail-chimp-lists') %}
+
+{% set iconUrl = view.getAssetManager().getPublishedUrl('@lukeyouell/mailchimplists/assetbundles/indexcpsection/dist', true) ~ '/img/Index-icon.svg' %}
+
+{% set extraPageHeaderHtml %}
+    <div class="buttons">
+        <a href="{{ pluginCpUrl }}" class="btn submit add icon">{{ "Click Me!"|t('mail-chimp-lists') }}</a>
+    </div>
+{% endset %}
+
+{% set content %}
+    <h2>{{ "Index CP Section body goes here"|t('mail-chimp-lists') }}</h2>
+    <img src="{{ iconUrl }}" height="64" width="64" />
+    <p class="textline"></p>
+{% endset %}

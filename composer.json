@@ -1,0 +1,44 @@
+{
+    "name": "lukeyouell/craft-mailchimplists",
+    "description": "Create, manage and monitor your MailChimp Lists from within Craft.",
+    "type": "craft-plugin",
+    "version": "0.1.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "mailchimp",
+        "mailchimp lists"
+    ],
+    "support": {
+        "docs": "https://github.com/lukeyouell/craft-mailchimplists/blob/v1/README.md",
+        "issues": "https://github.com/lukeyouell/craft-mailchimplists/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Luke Youell",
+            "homepage": "https://github.com/lukeyouell"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0-RC1"
+    },
+    "autoload": {
+        "psr-4": {
+          "lukeyouell\\mailchimplists\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "MailChimp Lists",
+        "handle": "mailchimp-lists",
+        "hasCpSettings": true,
+        "hasCpSection": true,
+        "changelogUrl": "https://raw.githubusercontent.com/lukeyouell/craft-mailchimplists/v1/CHANGELOG.md",
+        "components": {
+            "mailchimpListsService": "lukeyouell\\mailchimplists\\services\\MailchimpListsService"
+        },
+        "class": "lukeyouell\\mailchimplists\\MailchimpLists"
+    }
+}
