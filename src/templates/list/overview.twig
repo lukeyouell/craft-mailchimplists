@@ -1,0 +1,169 @@
+{% extends 'mailchimp-lists/list/layout' %}
+
+{% set response = craft.mailchimpLists.getList(listId) %}
+{% set selectedTab = 'overview' %}
+
+{% set content %}
+
+  {% if response %}
+
+    {% if response.success %}
+
+      {% if response.statusCode == 200 %}
+
+        <h3>Overview</h3>
+
+        <div class="grid-x grid-margin-x text-center">
+
+          <div class="medium-3 cell">
+            <div class="callout secondary">
+              <h4>Subscribed contacts</h4>
+              <p>{{ response.body.stats.member_count }}</p>
+            </div>
+          </div>
+
+          <div class="medium-3 cell">
+            <div class="callout secondary">
+              <h4>Unsubscribed contacts</h4>
+              <p>{{ response.body.stats.unsubscribe_count }}</p>
+            </div>
+          </div>
+
+          <div class="medium-3 cell">
+            <div class="callout secondary">
+              <h4>Cleaned contacts</h4>
+              <p>{{ response.body.stats.cleaned_count }}</p>
+            </div>
+          </div>
+
+          <div class="medium-3 cell">
+            <div class="callout secondary">
+              <h4>Campaigns</h4>
+              <p>{{ response.body.stats.campaign_count }}</p>
+            </div>
+          </div>
+
+        </div>
+
+        <h3>List Performance</h3>
+
+        <div class="grid-x grid-margin-x">
+
+          <div class="medium-6 cell">
+            <div class="grid-x grid-margin-x">
+              <div class="auto cell">Average open rate</div>
+              <div class="shrink cell">{{ response.body.stats.open_rate }}%</div>
+              <div class="cell">
+                <div class="progress {{ response.body.stats.open_rate >= 80 ? 'success' : (response.body.stats.open_rate < 80) and (response.body.stats.open_rate >= 30) ? 'warning' : response.body.stats.open_rate < 30 ? 'alert' : 'primary' }}" role="progressbar" tabindex="0" aria-valuenow="{{ response.body.stats.open_rate }}" aria-valuemin="0" aria-valuetext="{{ response.body.stats.open_rate }}%" aria-valuemax="100">
+                  <span class="progress-meter" style="width: {{ response.body.stats.open_rate }}%"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="medium-6 cell">
+            <div class="grid-x grid-margin-x">
+              <div class="auto cell">Average click rate</div>
+              <div class="shrink cell">{{ response.body.stats.click_rate }}%</div>
+              <div class="cell">
+                <div class="progress {{ response.body.stats.click_rate >= 80 ? 'success' : (response.body.stats.click_rate < 80) and (response.body.stats.click_rate >= 30) ? 'warning' : response.body.stats.click_rate < 30 ? 'alert' : 'primary' }}" role="progressbar" tabindex="0" aria-valuenow="{{ response.body.stats.click_rate }}" aria-valuemin="0" aria-valuetext="{{ response.body.stats.click_rate }}%" aria-valuemax="100">
+                  <span class="progress-meter" style="width: {{ response.body.stats.click_rate }}%"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="medium-6 cell">
+            <div class="callout secondary">
+              <h4>Average subscriptions per month</h4>
+              <p>{{ response.body.stats.avg_sub_rate }}</p>
+            </div>
+          </div>
+
+          <div class="medium-6 cell">
+            <div class="callout secondary">
+              <h4>Average unsubscriptions per month</h4>
+              <p>{{ response.body.stats.avg_unsub_rate }}</p>
+            </div>
+          </div>
+
+        </div>
+
+        <h3>Recent Activity</h3>
+
+        <div class="grid-x grid-margin-x text-center">
+
+          <div class="medium-4 cell">
+            <div class="callout secondary">
+              <h4>Last subscribe</h4>
+              <p>{{ craft.app.info.timezone ?
+                  response.body.stats.last_sub_date|date('jS F Y H:i', craft.app.info.timezone) :
+                  response.body.stats.last_sub_date|date('jS F Y H:i') }}
+              </p>
+            </div>
+          </div>
+
+          <div class="medium-4 cell">
+            <div class="callout secondary">
+              <h4>Last unsubscribe</h4>
+              <p>{{ craft.app.info.timezone ?
+                  response.body.stats.last_unsub_date|date('jS F Y H:i', craft.app.info.timezone) :
+                  response.body.stats.last_unsub_date|date('jS F Y H:i') }}
+              </p>
+            </div>
+          </div>
+
+          <div class="medium-4 cell">
+            <div class="callout secondary">
+              <h4>Last campaign</h4>
+              <p>{{ craft.app.info.timezone ?
+                  response.body.stats.campaign_last_sent|date('jS F Y H:i', craft.app.info.timezone) :
+                  response.body.stats.campaign_last_sent|date('jS F Y H:i') }}
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <h3>Since Last Campaign</h3>
+
+        <div class="grid-x grid-margin-x text-center">
+
+          <div class="medium-4 cell">
+            <div class="callout secondary">
+              <h4>Subscribed</h4>
+              <p>{{ response.body.stats.member_count_since_send }}</p>
+            </div>
+          </div>
+
+          <div class="medium-4 cell">
+            <div class="callout secondary">
+              <h4>Unsubscribed</h4>
+              <p>{{ response.body.stats.unsubscribe_count_since_send }}</p>
+            </div>
+          </div>
+
+          <div class="medium-4 cell">
+            <div class="callout secondary">
+              <h4>Cleaned contacts</h4>
+              <p>{{ response.body.stats.cleaned_count_since_send }}</p>
+            </div>
+          </div>
+
+        </div>
+
+      {% else %}
+
+        {% include 'mailchimp-lists/errors/client' %}
+
+      {% endif %}
+
+    {% else %}
+
+      {% include 'mailchimp-lists/errors/exception' %}
+
+    {% endif %}
+
+  {% endif %}
+
+{% endset %}

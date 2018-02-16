@@ -1,0 +1,144 @@
+{% extends 'mailchimp-lists/list/layout' %}
+
+{% set response = craft.mailchimpLists.getListMember(listId, memberId) %}
+{% set selectedTab = 'contacts' %}
+
+{% set content %}
+
+  {% if response %}
+
+    {% if response.success %}
+
+      {% if response.statusCode == 200 %}
+
+        <h3>Subscriber Details</h3>
+
+        <div class="callout {{
+          response.body.status == 'subscribed' ? 'success' :
+          response.body.status == 'unsubscribed' ? 'alert' :
+          response.body.status == 'cleaned' ? 'primary' :
+          'secondary'
+        }} ">
+          {{ response.body.status|capitalize }} {{ response.body.status == 'unsubscribed' ? '(' ~ response.body.unsubscribe_reason ~ ')' }}
+        </div>
+
+        <div class="callout secondary">
+          <div class="grid-x grid-margin-x">
+            <div class="medium-3 cell">
+              <p><strong>ID</strong></p>
+            </div>
+            <div class="medium-9 cell">
+              <p>{{ response.body.id }}</p>
+            </div>
+            <div class="medium-3 cell">
+              <p><strong>Email Address</strong></p>
+            </div>
+            <div class="medium-9 cell">
+              <p>{{ response.body.email_address }}</p>
+            </div>
+            <div class="medium-3 cell">
+              <p><strong>Name</strong></p>
+            </div>
+            <div class="medium-9 cell">
+              <p>
+                {{ response.body.merge_fields.FNAME ? response.body.merge_fields.FNAME }}
+                {{ response.body.merge_fields.LNAME ? response.body.merge_fields.LNAME }}
+                {{ (response.body.merge_fields.FNAME is not defined) and (response.body.merge_fields.LNAME is not defined) ? 'Undefined' }}
+              </p>
+            </div>
+            <div class="medium-3 cell">
+              <p><strong>Birthday</strong></p>
+            </div>
+            <div class="medium-9 cell">
+              <p>{{ response.body.merge_fields.BIRTHDAY ? response.body.merge_fields.BIRTHDAY : 'Undefined' }}</p>
+            </div>
+            <div class="medium-3 cell">
+              <p><strong>Added</strong></p>
+            </div>
+            <div class="medium-9 cell">
+              <p>{{ craft.app.info.timezone ?
+                  response.body.timestamp_opt|date('jS F Y H:i', craft.app.info.timezone) :
+                  response.body.timestamp_opt|date('jS F Y H:i') }}</p>
+            </div>
+            <div class="medium-3 cell">
+              <p><strong>Last Changed</strong></p>
+            </div>
+            <div class="medium-9 cell">
+              <p>{{ craft.app.info.timezone ?
+                  response.body.last_changed|date('jS F Y H:i', craft.app.info.timezone) :
+                  response.body.last_changed|date('jS F Y H:i') }}</p>
+            </div>
+          </div>
+        </div>
+
+        <h3>Overview</h3>
+
+        {% set openRate = response.body.stats.avg_open_rate * 100 %}
+        {% set clickRate = response.body.stats.avg_click_rate * 100 %}
+
+        <div class="grid-x grid-margin-x">
+
+          <div class="medium-6 cell">
+            <div class="grid-x grid-margin-x">
+              <div class="auto cell">Average open rate</div>
+              <div class="shrink cell">{{ openRate }}%</div>
+              <div class="cell">
+                <div class="progress {{ openRate >= 80 ? 'success' : (openRate < 80) and (openRate >= 30) ? 'warning' : openRate < 30 ? 'alert' : 'primary' }}" role="progressbar" tabindex="0" aria-valuenow="{{ openRate }}" aria-valuemin="0" aria-valuetext="{{ openRate }}%" aria-valuemax="100">
+                  <span class="progress-meter" style="width: {{ openRate }}%"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="medium-6 cell">
+            <div class="grid-x grid-margin-x">
+              <div class="auto cell">Average click rate</div>
+              <div class="shrink cell">{{ clickRate }}%</div>
+              <div class="cell">
+                <div class="progress {{ clickRate >= 80 ? 'success' : (clickRate < 80) and (clickRate >= 30) ? 'warning' : clickRate < 30 ? 'alert' : 'primary' }}" role="progressbar" tabindex="0" aria-valuenow="{{ clickRate }}" aria-valuemin="0" aria-valuetext="{{ clickRate }}%" aria-valuemax="100">
+                  <span class="progress-meter" style="width: {{ clickRate }}%"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="callout secondary">
+          <div class="grid-x grid-margin-x">
+            <div class="medium-3 cell">
+              <p><strong>Language</strong></p>
+            </div>
+            <div class="medium-9 cell">
+              <p>{{ response.body.language }}</p>
+            </div>
+            <div class="medium-3 cell">
+              <p><strong>Preferred Email Client</strong></p>
+            </div>
+            <div class="medium-9 cell">
+              <p>{{ response.body.email_client }}</p>
+            </div>
+            <div class="medium-3 cell">
+              <p><strong>Email Type</strong></p>
+            </div>
+            <div class="medium-9 cell">
+              <p>{{ response.body.email_type }}</p>
+            </div>
+          </div>
+        </div>
+
+      {% else %}
+
+        {% include 'mailchimp-lists/errors/client' %}
+
+      {% endif %}
+
+    {% else %}
+
+      {% include 'mailchimp-lists/errors/exception' %}
+
+    {% endif %}
+
+  {% endif %}
+
+{% endset %}

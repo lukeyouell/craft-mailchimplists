@@ -11,6 +11,7 @@
 namespace lukeyouell\mailchimplists\variables;
 
 use lukeyouell\mailchimplists\MailchimpLists;
+use lukeyouell\mailchimplists\services\HttpService;
 
 use Craft;
 
@@ -24,16 +25,33 @@ class MailchimpListsVariable
     // Public Methods
     // =========================================================================
 
-    /**
-     * @param null $optional
-     * @return string
-     */
-    public function exampleVariable($optional = null)
+    public function getAccount()
     {
-        $result = "And away we go to the Twig template...";
-        if ($optional) {
-            $result = "I'm feeling optional today...";
-        }
-        return $result;
+        return HttpService::get();
+    }
+
+    public function getLists()
+    {
+        return HttpService::get('lists');
+    }
+
+    public function getList($listId = null)
+    {
+        return HttpService::get('lists/'.$listId);
+    }
+
+    public function getListName($listId = null)
+    {
+        return HttpService::get('lists/'.$listId, ['fields' => 'name']);
+    }
+
+    public function getListMembers($listId = null)
+    {
+        return HttpService::get('lists/'.$listId.'/members');
+    }
+
+    public function getListMember($listId = null, $memberId = null)
+    {
+        return HttpService::get('lists/'.$listId.'/members/'.$memberId);
     }
 }

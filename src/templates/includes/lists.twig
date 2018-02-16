@@ -1,0 +1,93 @@
+{% set response = craft.mailchimpLists.getLists() %}
+
+{% if response %}
+
+  {% if response.success %}
+
+    {% if response.statusCode == 200 %}
+
+      <table class="data fullwidth collapsible">
+
+        <thead>
+          <tr>
+            <th scope="col">List</th>
+            <th scope="col">Subscribers</th>
+            <th scope="col">Unsubscribes</th>
+            <th scope="col">Opens</th>
+            <th scope="col">Clicks</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          {% for list in response.body.lists %}
+
+            {% set created = craft.app.info.timezone ?
+                list.date_created|date('jS F Y H:i', craft.app.info.timezone) :
+                list.date_created|date('jS F Y H:i')
+            %}
+
+            <tr>
+              <th>
+                <a href="{{ url('mailchimp-lists/list/' ~ list.id) }}">
+                  <div>{{ list.name }}</div>
+                </a>
+                <div class="light">Created {{ created }}</div>
+              </th>
+              <td class="nowrap">
+                <div><code>{{ list.stats.member_count }}</code></div>
+              </td>
+              <td class="nowrap">
+                <div><code>{{ list.stats.unsubscribe_count }}</code></div>
+              </td>
+              <td class="nowrap">
+                <div><code>{{ list.stats.open_rate }}</code>%</div>
+              </td>
+              <td class="nowrap">
+                <div><code>{{ list.stats.click_rate }}</code>%</div>
+              </td>
+              <td class="nowrap thin">
+                <div class="btngroup">
+                  <div class="btn menubtn" data-icon="settings"></div>
+                  <div class="menu" data-align="right">
+                    <ul>
+                      <li><a href="{{ url('mailchimp-lists/list/' ~ list.id ~ '#stats') }}">Stats</a></li>
+                      <li><a href="{{ url('mailchimp-lists/list/' ~ list.id ~ '#contacts') }}">Contacts</a></li>
+                      <li><a href="{{ url('mailchimp-lists/list/' ~ list.id ~ '#settings') }}">Settings</a></li>
+                      <li><a class="formsubmit error" href="#" data-confirm="Are you sure you want to delete this list?">Delete</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+          {% endfor %}
+
+        </tbody>
+
+      </table>
+
+    {% else %}
+
+      <div class="callout alert">
+        {% if response.body %}
+          <strong>{{ response.body.title }}</strong><br>
+          {{ response.body.detail }}
+        {% else %}
+          <strong>{{ response.statusCode }}</strong><br>
+          {{ response.reason }}
+        {% endif %}
+      </div>
+
+    {% endif %}
+
+  {% else %}
+
+    <div class="callout alert">
+      {{ response.reason }}
+    </div>
+
+  {% endif %}
+
+{% endif %}

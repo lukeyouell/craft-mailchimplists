@@ -8,39 +8,33 @@
  * @copyright Copyright (c) 2018 Luke Youell
  */
 
-namespace lukeyouell\mailchimplists\models;
-
-use lukeyouell\mailchimplists\MailchimpLists;
+namespace lukeyouell\mailchimplists\assetbundles\MailchimpLists;
 
 use Craft;
-use craft\base\Model;
-
+use craft\web\AssetBundle;
+use craft\web\assets\cp\CpAsset;
 /**
  * @author    Luke Youell
  * @package   MailchimpLists
  * @since     0.1.0
  */
-class Settings extends Model
+
+class MailchimpListsAsset extends AssetBundle
 {
-    // Public Properties
-    // =========================================================================
-
-    /**
-     * @var string
-     */
-    public $apiKey = null;
-
     // Public Methods
     // =========================================================================
-
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function init()
     {
-        return [
-            [['apiKey'], 'string'],
-            [['apiKey'], 'required'],
+        $this->sourcePath = "@lukeyouell/mailchimplists/assetbundles/mailchimplists/dist";
+        $this->depends = [
+            CpAsset::class,
         ];
+        $this->css = [
+            'css/foundation.css',
+        ];
+        parent::init();
     }
 }

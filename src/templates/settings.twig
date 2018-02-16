@@ -1,26 +1,30 @@
-{# @var craft \craft\web\twig\variables\CraftVariable #}
-{#
-/**
- * MailChimp Lists plugin for Craft CMS 3.x
- *
- * MailChimp Lists Settings.twig
- *
- * @author    Luke Youell
- * @copyright Copyright (c) 2018 Luke Youell
- * @link      https://github.com/lukeyouell
- * @package   MailchimpLists
- * @since     0.1.0
- */
-#}
-
-{% import "_includes/forms" as forms %}
+{% import '_includes/forms' as forms %}
 
 {% do view.registerAssetBundle("lukeyouell\\mailchimplists\\assetbundles\\mailchimplists\\MailchimpListsAsset") %}
 
+{% set request = settings.apiKey ? craft.mailchimpLists.getAccount() : null %}
+
+{% macro configWarning(setting) -%}
+  {% set setting = '<code>' ~ setting ~ '</code>' %}
+  {{ 'This is being overridden by the {setting} config setting in your {file} config file.'|t('sentry', {
+      setting: setting,
+      file:    'mailchimp-lists.php'
+  })|raw }}
+{%- endmacro %}
+
+{% from _self import configWarning %}
+
+{% include 'mailchimp-lists/includes/accountStatus' %}
+
 {{ forms.textField({
-    label: 'Some Field',
-    instructions: 'Enter some setting here.',
-    id: 'someAttribute',
-    name: 'someAttribute',
-    value: settings['someAttribute']})
-}}
+    first:        true,
+    required:     true,
+    label:        'API Key',
+    instructions: 'API keys provide full access to your MailChimp account, so keep them safe. <a href="https://admin.mailchimp.com/account/api-key-popup/" target="_blank">Your API key is available here</a>.',
+    id:           'apiKey',
+    name:         'apiKey',
+    placeholder:  'ENswGPkvNWiPGDzqGpmL7WSeYLKDR4ts-us17',
+    value:        settings.apiKey,
+    disabled:     'apiKey' in overrides,
+    warning:      'apiKey' in overrides ? configWarning('apiKey')
+}) }}

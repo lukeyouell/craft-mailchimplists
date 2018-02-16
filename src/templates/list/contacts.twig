@@ -1,0 +1,90 @@
+{% extends 'mailchimp-lists/list/layout' %}
+
+{% set response = craft.mailchimpLists.getListMembers(listId) %}
+{% set selectedTab = 'contacts' %}
+
+{% set content %}
+
+  {% if response %}
+
+    {% if response.success %}
+
+      {% if response.statusCode == 200 %}
+
+        {% if response.body.members|length %}
+
+          <table class="data fullwidth collapsible">
+
+            <thead>
+              <tr>
+                <th scope="col">Email Address</th>
+                <th scope="col">Status</th>
+                <th scope="col">Added</th>
+                <th scope="col">Last Changed</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              {% for member in response.body.members %}
+
+                {% set added = craft.app.info.timezone ?
+                    member.timestamp_opt|date('jS F Y H:i', craft.app.info.timezone) :
+                    member.timestamp_opt|date('jS F Y H:i')
+                %}
+
+                {% set changed = craft.app.info.timezone ?
+                    member.last_changed|date('jS F Y H:i', craft.app.info.timezone) :
+                    member.last_changed|date('jS F Y H:i')
+                %}
+
+                <tr>
+                  <th>
+                    <a href="{{ url('mailchimp-lists/list/' ~ listId ~ '/contacts/' ~ member.id) }}">
+                      <div>{{ member.email_address }}</div>
+                    </a>
+                  </th>
+                  <td class="nowrap">
+                    <div>
+                      <code class="{{ member.status == 'subscribed' ? 'success' : member.status == 'unsubscribed' ? 'error' }}">
+                      {{ member.status }}
+                    </code>
+                  </div>
+                  </td>
+                  <td class="nowrap">
+                    <div><code>{{ added }}</code></div>
+                  </td>
+                  <td class="nowrap">
+                    <div><code>{{ changed }}</code></div>
+                  </td>
+                </tr>
+
+              {% endfor %}
+
+            </tbody>
+
+          </table>
+
+        {% else %}
+
+          <div class="callout warning">
+            No contacts found
+          </div>
+
+        {% endif %}
+
+      {% else %}
+
+        {% include 'mailchimp-lists/errors/client' %}
+
+      {% endif %}
+
+    {% else %}
+
+      {% include 'mailchimp-lists/errors/exception' %}
+
+    {% endif %}
+
+  {% endif %}
+
+{% endset %}

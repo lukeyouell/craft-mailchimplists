@@ -1,0 +1,130 @@
+{% extends 'mailchimp-lists/list/layout' %}
+
+{% import '_includes/forms' as forms %}
+
+{% set response = craft.mailchimpLists.getList(listId) %}
+{% set selectedTab = 'settings' %}
+{% set fullPageForm = true %}
+
+{% set content %}
+
+  {% if response %}
+
+    {% if response.success %}
+
+      {% if response.statusCode == 200 %}
+
+        {{ forms.textField({
+            first:        true,
+            required:     true,
+            label:        'List name',
+            instructions: 'Good example: "Acme Company Newsletter" - Bad example: "Cust_11_01_2018"',
+            name:         'name',
+            placeholder:  'Acme Company Newsletter',
+            value:        response.body.name
+        }) }}
+
+        {{ forms.lightswitchField({
+            label:        'Multiple formats for emails',
+            instructions: 'Allow subscribers to choose whether they want to receive HTML or plain-text emails.',
+            name:         'email_type_option',
+            on:           response.body.email_type_option
+        }) }}
+
+        <hr>
+
+        <h2>Required Email Footer Content</h2>
+
+        <div class="callout secondary">
+
+          {{ forms.textareaField({
+              required:     true,
+              label:        'Permission reminder',
+              instructions: 'Remind people how they signed up to your list',
+              name:         'permission_reminder',
+              placeholder:  'You are receiving this email because you opted in via our website.',
+              value:        response.body.permission_reminder
+          }) }}
+
+        </div>
+
+        <div class="callout secondary">
+
+          {{ forms.textField({
+              required:     true,
+              label:        'Address line one',
+              instructions: 'The street address for the list contact.',
+              name:         'contact[address1]',
+              placeholder:  'Address line one',
+              value:        response.body.contact.address1
+          }) }}
+
+          {{ forms.textField({
+              label:        'Address line two',
+              instructions: 'The street address for the list contact.',
+              name:         'contact[address2]',
+              placeholder:  'Address line two',
+              value:        response.body.contact.address2
+          }) }}
+
+          {{ forms.textField({
+              required:     true,
+              label:        'City',
+              instructions: 'The city for the list contact.',
+              name:         'contact[city]',
+              placeholder:  'City',
+              value:        response.body.contact.city
+          }) }}
+
+          {{ forms.textField({
+              required:     true,
+              label:        'State',
+              instructions: 'The state for the list contact.',
+              name:         'contact[state]',
+              placeholder:  'State',
+              value:        response.body.contact.state
+          }) }}
+
+          {{ forms.textField({
+              required:     true,
+              label:        'Postal code',
+              instructions: 'The postal or zip code for the list contact.',
+              name:         'contact[zip]',
+              placeholder:  'Postal code',
+              value:        response.body.contact.zip
+          }) }}
+
+          {{ forms.textField({
+              required:     true,
+              label:        'Country',
+              instructions: 'A two-character ISO3166 country code. Defaults to US if invalid.',
+              name:         'contact[country]',
+              placeholder:  'GB',
+              value:        response.body.contact.country
+          }) }}
+
+          {{ forms.textField({
+              label:        'Phone number',
+              instructions: 'The phone number for the list contact.',
+              name:         'contact[phone]',
+              placeholder:  'Phone number',
+              value:        response.body.contact.phone
+          }) }}
+
+        </div>
+
+      {% else %}
+
+        {% include 'mailchimp-lists/errors/client' %}
+
+      {% endif %}
+
+    {% else %}
+
+      {% include 'mailchimp-lists/errors/exception' %}
+
+    {% endif %}
+
+  {% endif %}
+
+{% endset %}

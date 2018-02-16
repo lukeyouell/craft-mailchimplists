@@ -1,0 +1,16 @@
+{% extends '_layouts/cp' %}
+
+{% do view.registerAssetBundle('lukeyouell\\mailchimplists\\assetbundles\\mailchimplists\\MailchimpListsAsset') %}
+
+{% set response = craft.mailchimpLists.getListName(listId) %}
+{% set title = (response.success) and (response.statusCode == 200) ? 'List: ' ~ response.body.name : 'Undefined' %}
+
+{% set crumbs = {
+    0: { label: 'MailChimp Lists', url: url('mailchimp-lists') }
+} %}
+
+{% set tabs = {
+    overview: { label: 'Overview', url: url('mailchimp-lists/list/' ~ listId) },
+    contacts: { label: 'Contacts', url: url('mailchimp-lists/list/' ~ listId ~ '/contacts') },
+    settings: { label: 'Settings', url: url('mailchimp-lists/list/' ~ listId ~ '/settings') }
+} %}

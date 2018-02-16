@@ -1,0 +1,9 @@
+<div class="callout alert">
+  {% if response.body %}
+    <strong>{{ response.body.title }}</strong><br>
+    {{ response.body.detail }}
+  {% else %}
+    <strong>{{ response.statusCode }}</strong><br>
+    {{ response.reason }}
+  {% endif %}
+</div>

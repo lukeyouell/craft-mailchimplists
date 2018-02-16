@@ -1,0 +1,64 @@
+{% set response = settings.apiKey ? craft.mailchimpLists.getAccount() : null %}
+
+{% if response %}
+
+  {% if response.success %}
+
+    {% if response.statusCode == 200 %}
+
+      <div class="callout success">
+        Connected
+      </div>
+
+      <div class="callout secondary">
+        <div class="grid-x grid-margin-x">
+          <div class="medium-3 cell">
+            <p><strong>Account ID</strong></p>
+          </div>
+          <div class="medium-9 cell">
+            <p>{{ response.body.account_id }}</p>
+          </div>
+          <div class="medium-3 cell">
+            <p><strong>Account Name</strong></p>
+          </div>
+          <div class="medium-9 cell">
+            <p>{{ response.body.account_name }}</p>
+          </div>
+          <div class="medium-3 cell">
+            <p><strong>Last Login</strong></p>
+          </div>
+          <div class="medium-9 cell">
+            <p>{{ craft.app.info.timezone ? response.body.last_login|date('jS F Y H:i (T)', craft.app.info.timezone) : response.body.last_login|date('jS F Y H:i') }}</p>
+          </div>
+          <div class="medium-3 cell">
+            <p><strong>Total Subscribers</strong></p>
+          </div>
+          <div class="medium-9 cell">
+            <p>{{ response.body.total_subscribers }}</p>
+          </div>
+        </div>
+      </div>
+
+    {% else %}
+
+      <div class="callout alert">
+        {% if response.body %}
+          <strong>{{ response.body.title }}</strong><br>
+          {{ response.body.detail }}
+        {% else %}
+          <strong>{{ response.statusCode }}</strong><br>
+          {{ response.reason }}
+        {% endif %}
+      </div>
+
+    {% endif %}
+
+  {% else %}
+
+    <div class="callout alert">
+      {{ response.reason }}
+    </div>
+
+  {% endif %}
+
+{% endif %}

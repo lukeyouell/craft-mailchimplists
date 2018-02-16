@@ -21,6 +21,7 @@ use craft\events\PluginEvent;
 use craft\web\UrlManager;
 use craft\web\twig\variables\CraftVariable;
 use craft\events\RegisterUrlRulesEvent;
+use craft\helpers\UrlHelper;
 
 use yii\base\Event;
 
@@ -64,17 +65,12 @@ class MailchimpLists extends Plugin
 
         Event::on(
             UrlManager::class,
-            UrlManager::EVENT_REGISTER_SITE_URL_RULES,
-            function (RegisterUrlRulesEvent $event) {
-                $event->rules['siteActionTrigger1'] = 'mailchimp-lists/default';
-            }
-        );
-
-        Event::on(
-            UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
-                $event->rules['cpActionTrigger1'] = 'mailchimp-lists/default/do-something';
+                $event->rules['mailchimp-lists/list/<listId>'] = ['template' => 'mailchimp-lists/list/overview'];
+                $event->rules['mailchimp-lists/list/<listId>/contacts'] = ['template' => 'mailchimp-lists/list/contacts'];
+                $event->rules['mailchimp-lists/list/<listId>/contacts/<memberId>'] = ['template' => 'mailchimp-lists/list/member'];
+                $event->rules['mailchimp-lists/list/<listId>/settings'] = ['template' => 'mailchimp-lists/list/settings'];
             }
         );
 
@@ -93,6 +89,7 @@ class MailchimpLists extends Plugin
             Plugins::EVENT_AFTER_INSTALL_PLUGIN,
             function (PluginEvent $event) {
                 if ($event->plugin === $this) {
+                  Craft::$app->getResponse()->redirect(UrlHelper::cpUrl('settings/plugins/mailchimp-lists'))->send();
                 }
             }
         );
