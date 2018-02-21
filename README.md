@@ -87,7 +87,7 @@ The above field names are **case-sensitive**.
 
 If you have a `redirect` hidden input, the user will be redirected to it upon successful submission. This must also be a hashed value.
 
-If you **don't** have a `redirect` hidden input, the plugin will respond with json.
+If you **don't** have a `redirect` hidden input, the plugin will respond with json (handy for debugging)
 
 ## Ajax Submissions
 
