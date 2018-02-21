@@ -1,3 +1,5 @@
+<img src="src/icon.svg" alt="icon" width="100" height="100">
+
 # MailChimp Lists plugin for Craft CMS 3.x
 
 Create, manage and monitor your MailChimp Lists from within Craft.
