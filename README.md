@@ -203,8 +203,11 @@ return [
 
 Some things to do, and ideas for potential features:
 
-* Delete Lists
-* Edit Members
-* Delete Members
+- List deletion
+- List growth
+- List activity
+- Edit members
+- Member deletion
+- Member activity
 
 Brought to you by [Luke Youell](https://github.com/lukeyouell)
