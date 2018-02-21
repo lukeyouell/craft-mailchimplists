@@ -63,9 +63,24 @@ Your list subscription form template should look something like this:
 </form>
 ```
 
+### Form Parameters
+
+| Name                 | Required | Hashed | Expected value |
+| -------------------- | -------- | ------ | -------------- |
+| `listId`             | Yes      | Yes    | The unique id for the list |
+| `status`             | Yes      | Yes    | `subscribed`, `unsubscribed`, `cleaned` or `pending` |
+| `email_address`      | Yes      | No     | Email address for a subscriber |
+| `email_type`         | No       | No     | `html` or `text` |
+| `merge_fields[]`     | No       | No     | An individual merge var and value for a member |
+| `interests[]`        | No       | No     | The name of this field is the ID of the interest in question. |
+| `language`           | No       | No     | If set/detected, the subscriber’s language [ISO 3166 Country Code](https://dev.maxmind.com/geoip/legacy/codes/iso3166/) |
+| `vip`                | No       | No     | VIP status for subscriber |
+| `location[latitude]` | No       | No     | Subscriber location latitude |
+| `listId[longitude]`  | No       | No     | Subscriber location longitude |
+
 ## Example Responses
 
-### Success
+### Successful
 
 ```json
 {
@@ -105,6 +120,32 @@ Your list subscription form template should look something like this:
       },
       "list_id": "t74m4dbg9r"
    }
+}
+```
+
+### MailChimp Error
+
+```json
+{
+   "success": true,
+   "statusCode": 400,
+   "reason": "Bad Request",
+   "body": {
+      "type": "http://developer.mailchimp.com/documentation/mailchimp/guides/error-glossary/",
+      "title": "Member Exists",
+      "status": 400,
+      "detail": "joe.bloggs@email.com is already a list member. Use PUT to insert or update list members.",
+      "instance": "a6d8eac9-3456-123a-a01b-22r4342d6432"
+   }
+}
+```
+
+### Request Failed
+
+```json
+{
+   "success": false,
+   "reason": "cURL error 6: Could not resolve host: us17.api.mailchimp.co.uk (see http://curl.haxx.se/libcurl/c/libcurl-errors.html)"
 }
 ```
 
