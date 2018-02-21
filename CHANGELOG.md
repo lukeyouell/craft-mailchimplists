@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Improved documentation
+- Template tweaks
 
 ## 1.0.1 - 2018-02-21
 
