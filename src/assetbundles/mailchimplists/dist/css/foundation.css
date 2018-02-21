@@ -1,3 +1,7 @@
+.text-center {
+  text-align: center;
+}
+
 .is-visible {
   display: block !important; }
 
@@ -90,6 +94,74 @@
   color: #fff;
   white-space: nowrap;
   border-radius: 4px; }
+
+  .pagination {
+    margin-top: 1rem;
+    margin-left: 0;
+    margin-bottom: 1rem; }
+    .pagination::before, .pagination::after {
+      display: table;
+      content: ' ';
+      -ms-flex-preferred-size: 0;
+          flex-basis: 0;
+      -ms-flex-order: 1;
+          order: 1; }
+    .pagination::after {
+      clear: both; }
+    .pagination li {
+      margin-right: 0.0625rem;
+      border-radius: 2px;
+      font-size: 0.875rem;
+      display: none; }
+      .pagination li:last-child, .pagination li:first-child {
+        display: inline-block; }
+      @media print, screen and (min-width: 40em) {
+        .pagination li {
+          display: inline-block; } }
+    .pagination a,
+    .pagination button {
+      display: block;
+      background-image: linear-gradient(#fff, #fafafa);
+      padding: .5rem .8rem;
+      border-radius: 2px;
+      color: #29323d;
+      box-shadow: inset 0 0 0 1px transparent, 0 0 0 1px rgba(0, 0, 0, 0.025), 0 1px 1px rgba(0, 0, 0, 0.1); }
+      .pagination a:hover,
+      .pagination button:hover {
+        text-decoration: none; }
+      .pagination a:active,
+      .pagination button:active {
+        background-image: linear-gradient(#e4e5e7, #eaebec); }
+    .pagination .current {
+      background-image: linear-gradient(#da5a47, #cc5643);
+      padding: .5rem .8rem;
+      color: #fff;
+      cursor: default; }
+    .pagination .disabled {
+      padding: .5rem .8rem;
+      color: #cacaca;
+      cursor: not-allowed; }
+    .pagination .ellipsis::after {
+      padding: 0.1875rem 0.625rem;
+      content: '\2026';
+      color: #0a0a0a; }
+
+  .pagination-previous a::before,
+  .pagination-previous.disabled::before {
+    display: inline-block;
+    margin-right: 0.5rem;
+    content: '\00ab'; }
+
+  .pagination-next a::after,
+  .pagination-next.disabled::after {
+    display: inline-block;
+    margin-left: 0.5rem;
+    content: '\00bb'; }
+
+.pagination-count {
+  font-size: .875rem;
+  margin: 1rem 0;
+}
 
 .grid-container {
   padding-right: 0.9375rem;

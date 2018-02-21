@@ -3,6 +3,12 @@
 {% set response = craft.mailchimpLists.getList(listId) %}
 {% set selectedTab = 'overview' %}
 
+{% block actionButton %}
+
+  <span class="btn" onClick="window.location.reload()" data-icon="refresh"></span>
+
+{% endblock %}
+
 {% set content %}
 
   {% if response %}
@@ -96,9 +102,9 @@
           <div class="medium-4 cell">
             <div class="callout secondary">
               <h4>Last subscribe</h4>
-              <p>{{ craft.app.info.timezone ?
+              <p>{{ response.body.stats.last_sub_date ? (craft.app.info.timezone ?
                   response.body.stats.last_sub_date|date('jS F Y H:i', craft.app.info.timezone) :
-                  response.body.stats.last_sub_date|date('jS F Y H:i') }}
+                  response.body.stats.last_sub_date|date('jS F Y H:i')) : 'N/A' }}
               </p>
             </div>
           </div>
@@ -106,9 +112,9 @@
           <div class="medium-4 cell">
             <div class="callout secondary">
               <h4>Last unsubscribe</h4>
-              <p>{{ craft.app.info.timezone ?
+              <p>{{ response.body.stats.last_unsub_date ? (craft.app.info.timezone ?
                   response.body.stats.last_unsub_date|date('jS F Y H:i', craft.app.info.timezone) :
-                  response.body.stats.last_unsub_date|date('jS F Y H:i') }}
+                  response.body.stats.last_unsub_date|date('jS F Y H:i')) : 'N/A' }}
               </p>
             </div>
           </div>
@@ -116,9 +122,9 @@
           <div class="medium-4 cell">
             <div class="callout secondary">
               <h4>Last campaign</h4>
-              <p>{{ craft.app.info.timezone ?
+              <p>{{ response.body.stats.campaign_last_sent ? (craft.app.info.timezone ?
                   response.body.stats.campaign_last_sent|date('jS F Y H:i', craft.app.info.timezone) :
-                  response.body.stats.campaign_last_sent|date('jS F Y H:i') }}
+                  response.body.stats.campaign_last_sent|date('jS F Y H:i')) : 'N/A' }}
               </p>
             </div>
           </div>

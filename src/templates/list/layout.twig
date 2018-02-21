@@ -10,7 +10,7 @@
 } %}
 
 {% set tabs = {
-    overview: { label: 'Overview', url: url('mailchimp-lists/list/' ~ listId) },
-    contacts: { label: 'Contacts', url: url('mailchimp-lists/list/' ~ listId ~ '/contacts') },
-    settings: { label: 'Settings', url: url('mailchimp-lists/list/' ~ listId ~ '/settings') }
+    overview: { label: 'Overview', url: url('mailchimp-lists/' ~ listId) },
+    contacts: { label: 'Contacts', url: url('mailchimp-lists/' ~ listId ~ '/contacts') },
+    settings: { label: 'Settings', url: url('mailchimp-lists/' ~ listId ~ '/settings') }
 } %}

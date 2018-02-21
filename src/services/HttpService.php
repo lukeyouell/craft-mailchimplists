@@ -25,7 +25,7 @@ class HttpService extends Component
     // Public Methods
     // =========================================================================
 
-    public static function get($uri = '', $params = null)
+    public static function request($type = 'GET', $uri = '', $params = null)
     {
         $settings = MailchimpLists::$plugin->getSettings();
 
@@ -42,8 +42,8 @@ class HttpService extends Component
 
         try {
 
-          $response = $client->request('GET', $uri, [
-            'form_params' => $params
+          $response = $client->request($type, $uri, [
+            'json' => $params
           ]);
 
           return [

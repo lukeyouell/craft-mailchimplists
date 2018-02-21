@@ -14,6 +14,7 @@ use lukeyouell\mailchimplists\MailchimpLists;
 use lukeyouell\mailchimplists\services\HttpService;
 
 use Craft;
+use craft\helpers\UrlHelper;
 
 /**
  * @author    Luke Youell
@@ -27,31 +28,37 @@ class MailchimpListsVariable
 
     public function getAccount()
     {
-        return HttpService::get();
+        return HttpService::request();
     }
 
-    public function getLists()
+    public function getLists($params = [])
     {
-        return HttpService::get('lists');
+        $url = UrlHelper::urlWithParams('lists', $params);
+        return HttpService::request('GET', $url);
     }
 
     public function getList($listId = null)
     {
-        return HttpService::get('lists/'.$listId);
+        return HttpService::request('GET', 'lists/'.$listId);
     }
 
     public function getListName($listId = null)
     {
-        return HttpService::get('lists/'.$listId, ['fields' => 'name']);
+        return HttpService::request('GET', 'lists/'.$listId, ['fields' => 'name']);
     }
 
-    public function getListMembers($listId = null)
+    public function getListMembers($listId = null, $params = [])
     {
-        return HttpService::get('lists/'.$listId.'/members');
+        $url = UrlHelper::urlWithParams('lists/'.$listId.'/members', $params);
+        return HttpService::request('GET', $url);
     }
 
     public function getListMember($listId = null, $memberId = null)
     {
-        return HttpService::get('lists/'.$listId.'/members/'.$memberId);
+        return HttpService::request('GET', 'lists/'.$listId.'/members/'.$memberId);
+    }
+
+    public function paginationUrl($url = null, $params = []) {
+        return UrlHelper::urlWithParams($url, $params);
     }
 }

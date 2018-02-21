@@ -3,6 +3,12 @@
 {% set response = craft.mailchimpLists.getListMember(listId, memberId) %}
 {% set selectedTab = 'contacts' %}
 
+{% block actionButton %}
+
+  <span class="btn" onClick="window.location.reload()" data-icon="refresh"></span>
+
+{% endblock %}
+
 {% set content %}
 
   {% if response %}

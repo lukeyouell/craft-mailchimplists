@@ -1,7 +1,21 @@
 {% extends 'mailchimp-lists/list/layout' %}
 
-{% set response = craft.mailchimpLists.getListMembers(listId) %}
+{% set currentPage = craft.app.request.getQueryParam('page') ? craft.app.request.getQueryParam('page') : 1 %}
+{% set currentUrl = url(craft.app.request.pathInfo) %}
+{% set params = {
+    count: 20,
+    offset: (currentPage - 1) * 20,
+    sort_dir: 'DESC'
+} %}
+{% set response = craft.mailchimpLists.getListMembers(listId, params) %}
+
 {% set selectedTab = 'contacts' %}
+
+{% block actionButton %}
+
+  <span class="btn" onClick="window.location.reload()" data-icon="refresh"></span>
+
+{% endblock %}
 
 {% set content %}
 
@@ -40,7 +54,7 @@
 
                 <tr>
                   <th>
-                    <a href="{{ url('mailchimp-lists/list/' ~ listId ~ '/contacts/' ~ member.id) }}">
+                    <a href="{{ url('mailchimp-lists/' ~ listId ~ '/contacts/' ~ member.id) }}">
                       <div>{{ member.email_address }}</div>
                     </a>
                   </th>
@@ -64,6 +78,8 @@
             </tbody>
 
           </table>
+
+          {% include 'mailchimp-lists/includes/pagination' %}
 
         {% else %}
 

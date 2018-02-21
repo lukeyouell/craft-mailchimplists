@@ -1,0 +1,180 @@
+{% extends '_layouts/cp' %}
+
+{% import '_includes/forms' as forms %}
+
+{% do view.registerAssetBundle('lukeyouell\\mailchimplists\\assetbundles\\mailchimplists\\MailchimpListsAsset') %}
+
+{% set settings = craft.app.plugins.getPlugin('mailchimp-lists').settings %}
+{% set errorBody = craft.app.session.hasFlash('errorBody') ? craft.app.session.getFlash('errorBody') : null %}
+{% set title = 'MailChimp Lists' %}
+{% set fullPageForm = true %}
+
+{% set crumbs = {
+    0: { label: 'MailChimp Lists', url: url('mailchimp-lists') }
+} %}
+
+{% set content %}
+
+  {{ forms.hidden({
+      name: 'action',
+      value: 'mailchimp-lists/create'
+  }) }}
+
+  {{ forms.hidden({
+      name: 'redirect',
+      value: 'mailchimp-lists'|hash
+  }) }}
+
+  {% if errorBody %}
+
+    <div class="callout alert">
+      <p><strong>{{ errorBody.title }}</strong><br>{{ errorBody.detail }}</p>
+      {% if errorBody.errors %}
+        <div class="callout">
+          <pre>{{ errorBody.errors|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+        </div>
+      {% endif %}
+    </div>
+
+  {% endif %}
+
+  {{ forms.textField({
+      first:        true,
+      required:     true,
+      label:        'List name',
+      instructions: 'The name of the list.',
+      name:         'name',
+      placeholder:  'List name'
+  }) }}
+
+  {{ forms.lightswitchField({
+      label:        'Multiple formats for emails',
+      instructions: 'Allow subscribers to choose whether they want to receive HTML or plain-text emails.',
+      name:         'email_type_option'
+  }) }}
+
+  <hr>
+
+  <h2>Campaign Defaults</h2>
+
+  <div class="callout secondary">
+
+    {{ forms.textareaField({
+        required:     true,
+        label:        'Sender\'s name',
+        instructions: 'The default from name for campaigns sent to this list.',
+        name:         'campaign_defaults[from_name]',
+        placeholder:  'Sender\'s name'
+    }) }}
+
+    {{ forms.textareaField({
+        required:     true,
+        label:        'Sender\'s email address',
+        instructions: 'The default from email for campaigns sent to this list.',
+        name:         'campaign_defaults[from_email]',
+        placeholder:  'Sender\'s email address'
+    }) }}
+
+    {{ forms.textareaField({
+        required:     true,
+        label:        'Subject',
+        instructions: 'The default subject line for campaigns sent to this list.',
+        name:         'campaign_defaults[subject]',
+        placeholder:  'Subject'
+    }) }}
+
+    {{ forms.selectField({
+        required:     true,
+        label:        'Language',
+        instructions: 'The default language for this list.',
+        name:         'campaign_defaults[language]',
+        options:      settings.languages,
+        value:        'en'
+    }) }}
+
+  </div>
+
+  <hr>
+
+  <h2>Required Email Footer Content</h2>
+
+  <div class="callout secondary">
+
+    {{ forms.textareaField({
+        required:     true,
+        label:        'Permission reminder',
+        instructions: 'Remind people how they signed up to your list.',
+        name:         'permission_reminder',
+        placeholder:  'You are receiving this email because you opted in via our website.'
+    }) }}
+
+  </div>
+
+  <div class="callout secondary">
+
+    {{ forms.textField({
+        required:     true,
+        label:        'Company',
+        instructions: 'The company name for the list.',
+        name:         'contact[company]',
+        placeholder:  'Company'
+    }) }}
+
+    {{ forms.textField({
+        required:     true,
+        label:        'Address line one',
+        instructions: 'The street address for the list contact.',
+        name:         'contact[address1]',
+        placeholder:  'Address line one'
+    }) }}
+
+    {{ forms.textField({
+        label:        'Address line two',
+        instructions: 'The street address for the list contact.',
+        name:         'contact[address2]',
+        placeholder:  'Address line two'
+    }) }}
+
+    {{ forms.textField({
+        required:     true,
+        label:        'City',
+        instructions: 'The city for the list contact.',
+        name:         'contact[city]',
+        placeholder:  'City'
+    }) }}
+
+    {{ forms.textField({
+        required:     true,
+        label:        'State',
+        instructions: 'The state for the list contact.',
+        name:         'contact[state]',
+        placeholder:  'State'
+    }) }}
+
+    {{ forms.textField({
+        required:     true,
+        label:        'Postal code',
+        instructions: 'The postal or zip code for the list contact.',
+        name:         'contact[zip]',
+        placeholder:  'Postal code'
+    }) }}
+
+    {{ forms.selectField({
+        required:     true,
+        label:        'Country',
+        instructions: 'The country for the list contact.',
+        name:         'contact[country]',
+        options:      settings.countries,
+        value:        'GB'
+    }) }}
+
+    {{ forms.textField({
+        label:        'Phone number',
+        instructions: 'The phone number for the list contact.',
+        name:         'contact[phone]',
+        placeholder:  'Phone number'
+    }) }}
+
+  </div>
+
+{% endset %}

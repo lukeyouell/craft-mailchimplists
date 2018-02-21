@@ -2,7 +2,9 @@
 
 {% import '_includes/forms' as forms %}
 
+{% set settings = craft.app.plugins.getPlugin('mailchimp-lists').settings %}
 {% set response = craft.mailchimpLists.getList(listId) %}
+{% set errorBody = craft.app.session.hasFlash('errorBody') ? craft.app.session.getFlash('errorBody') : null %}
 {% set selectedTab = 'settings' %}
 {% set fullPageForm = true %}
 
@@ -14,13 +16,36 @@
 
       {% if response.statusCode == 200 %}
 
+        {{ forms.hidden({
+            name: 'action',
+            value: 'mailchimp-lists/settings'
+        }) }}
+
+        {{ forms.hidden({
+            name: 'listId',
+            value: listId
+        }) }}
+
+        {% if errorBody %}
+
+          <div class="callout alert">
+            <p><strong>{{ errorBody.title }}</strong><br>{{ errorBody.detail }}</p>
+            {% if errorBody.errors %}
+              <div class="callout">
+                <pre>{{ errorBody.errors|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+              </div>
+            {% endif %}
+          </div>
+
+        {% endif %}
+
         {{ forms.textField({
             first:        true,
             required:     true,
             label:        'List name',
-            instructions: 'Good example: "Acme Company Newsletter" - Bad example: "Cust_11_01_2018"',
+            instructions: 'The name of the list.',
             name:         'name',
-            placeholder:  'Acme Company Newsletter',
+            placeholder:  'List name',
             value:        response.body.name
         }) }}
 
@@ -33,6 +58,50 @@
 
         <hr>
 
+        <h2>Campaign Defaults</h2>
+
+        <div class="callout secondary">
+
+          {{ forms.textareaField({
+              required:     true,
+              label:        'Sender\'s name',
+              instructions: 'The default from name for campaigns sent to this list.',
+              name:         'campaign_defaults[from_name]',
+              placeholder:  'Sender\'s name',
+              value:        response.body.campaign_defaults.from_name
+          }) }}
+
+          {{ forms.textareaField({
+              required:     true,
+              label:        'Sender\'s email address',
+              instructions: 'The default from email for campaigns sent to this list.',
+              name:         'campaign_defaults[from_email]',
+              placeholder:  'Sender\'s email address',
+              value:        response.body.campaign_defaults.from_email
+          }) }}
+
+          {{ forms.textareaField({
+              required:     true,
+              label:        'Subject',
+              instructions: 'The default subject line for campaigns sent to this list.',
+              name:         'campaign_defaults[subject]',
+              placeholder:  'Subject',
+              value:        response.body.campaign_defaults.subject
+          }) }}
+
+          {{ forms.selectField({
+              required:     true,
+              label:        'Language',
+              instructions: 'The default language for this list.',
+              name:         'campaign_defaults[language]',
+              options:      settings.languages,
+              value:        response.body.campaign_defaults.language
+          }) }}
+
+        </div>
+
+        <hr>
+
         <h2>Required Email Footer Content</h2>
 
         <div class="callout secondary">
@@ -40,7 +109,7 @@
           {{ forms.textareaField({
               required:     true,
               label:        'Permission reminder',
-              instructions: 'Remind people how they signed up to your list',
+              instructions: 'Remind people how they signed up to your list.',
               name:         'permission_reminder',
               placeholder:  'You are receiving this email because you opted in via our website.',
               value:        response.body.permission_reminder
@@ -49,6 +118,15 @@
         </div>
 
         <div class="callout secondary">
+
+          {{ forms.textField({
+              required:     true,
+              label:        'Company',
+              instructions: 'The company name for the list.',
+              name:         'contact[company]',
+              placeholder:  'Company',
+              value:        response.body.contact.company
+          }) }}
 
           {{ forms.textField({
               required:     true,
@@ -94,12 +172,12 @@
               value:        response.body.contact.zip
           }) }}
 
-          {{ forms.textField({
+          {{ forms.selectField({
               required:     true,
               label:        'Country',
-              instructions: 'A two-character ISO3166 country code. Defaults to US if invalid.',
+              instructions: 'The country for the list contact.',
               name:         'contact[country]',
-              placeholder:  'GB',
+              options:      settings.countries,
               value:        response.body.contact.country
           }) }}
 

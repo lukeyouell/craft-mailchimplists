@@ -67,10 +67,11 @@ class MailchimpLists extends Plugin
             UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
-                $event->rules['mailchimp-lists/list/<listId>'] = ['template' => 'mailchimp-lists/list/overview'];
-                $event->rules['mailchimp-lists/list/<listId>/contacts'] = ['template' => 'mailchimp-lists/list/contacts'];
-                $event->rules['mailchimp-lists/list/<listId>/contacts/<memberId>'] = ['template' => 'mailchimp-lists/list/member'];
-                $event->rules['mailchimp-lists/list/<listId>/settings'] = ['template' => 'mailchimp-lists/list/settings'];
+                $event->rules['mailchimp-lists/create'] = ['template' => 'mailchimp-lists/create'];
+                $event->rules['mailchimp-lists/<listId>'] = ['template' => 'mailchimp-lists/list/overview'];
+                $event->rules['mailchimp-lists/<listId>/contacts'] = ['template' => 'mailchimp-lists/list/contacts'];
+                $event->rules['mailchimp-lists/<listId>/contacts/<memberId>'] = ['template' => 'mailchimp-lists/list/member'];
+                $event->rules['mailchimp-lists/<listId>/settings'] = ['template' => 'mailchimp-lists/list/settings'];
             }
         );
 
