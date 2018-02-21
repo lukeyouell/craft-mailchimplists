@@ -78,6 +78,42 @@ Your list subscription form template should look something like this:
 | `location[latitude]` | No       | No     | Subscriber location latitude |
 | `listId[longitude]`  | No       | No     | Subscriber location longitude |
 
+
+The above field names are **case-sensitive**.
+
+### Redirecting After Submit
+
+If you have a `redirect` hidden input, the user will be redirected to it upon successful submission. This must also be a hashed value.
+
+If you **don't** have a `redirect` hidden input, the plugin will respond with json.
+
+### Ajax Submissions
+
+You can optionally post submissions over Ajax if you’d like. Just send a POST request to your site with all of the same data that would normally be sent (except for the `redirect` field)
+
+```javascript
+$('form').submit(function(ev) {
+  // Prevent the form from actually submitting
+  ev.preventDefault();
+
+  // Send it to the server
+  $.post({
+    url: '/',
+    dataType: 'json',
+    data: $(this).serialize(),
+    success: function(response) {
+      if (response.success && response.statusCode == 200) {
+        alert('Success!');
+      } else if (response.statusCode !== 200) {
+        alert('MailChimp error: ' + response.body.title)
+      } else {
+        alert('An error occurred. Please try again.');
+      }
+    }
+  });
+});
+```
+
 ## Example Responses
 
 ### Successful
