@@ -63,7 +63,7 @@ Your list subscription form template should look something like this:
 </form>
 ```
 
-### Form Parameters
+## Form Parameters
 
 | Name                 | Required | Hashed | Expected value |
 | -------------------- | -------- | ------ | -------------- |
@@ -81,13 +81,13 @@ Your list subscription form template should look something like this:
 
 The above field names are **case-sensitive**.
 
-### Redirecting After Submit
+## Redirecting After Submit
 
 If you have a `redirect` hidden input, the user will be redirected to it upon successful submission. This must also be a hashed value.
 
 If you **don't** have a `redirect` hidden input, the plugin will respond with json.
 
-### Ajax Submissions
+## Ajax Submissions
 
 You can optionally post submissions over Ajax if you’d like. Just send a POST request to your site with all of the same data that would normally be sent (except for the `redirect` field)
 
