@@ -116,7 +116,7 @@ $('form').submit(function(ev) {
 
 ## Example Responses
 
-### Successful
+#### Successful
 
 ```json
 {
@@ -159,7 +159,7 @@ $('form').submit(function(ev) {
 }
 ```
 
-### MailChimp Error
+#### MailChimp Error
 
 ```json
 {
@@ -176,7 +176,7 @@ $('form').submit(function(ev) {
 }
 ```
 
-### Request Failed
+#### Request Failed
 
 ```json
 {
