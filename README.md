@@ -67,18 +67,18 @@ Your list subscription form template should look something like this:
 
 ## Form Parameters
 
-| Name                 | Required | Hashed | Expected value |
-| -------------------- | -------- | ------ | -------------- |
-| `listId`             | Yes      | Yes    | The unique id for the list |
-| `status`             | Yes      | Yes    | `subscribed`, `unsubscribed`, `cleaned` or `pending` |
-| `email_address`      | Yes      | No     | Email address for a subscriber |
-| `email_type`         | No       | No     | `html` or `text` |
-| `merge_fields[]`     | No       | No     | An individual merge var and value for a member |
-| `interests[]`        | No       | No     | The name of this field is the ID of the interest in question. |
-| `language`           | No       | No     | If set/detected, the subscriber’s language [ISO 3166 Country Code](https://dev.maxmind.com/geoip/legacy/codes/iso3166/) |
-| `vip`                | No       | No     | VIP status for subscriber |
-| `location[latitude]` | No       | No     | Subscriber location latitude |
-| `listId[longitude]`  | No       | No     | Subscriber location longitude |
+| Name                  | Required | Hashed | Expected value |
+| --------------------- | -------- | ------ | -------------- |
+| `listId`              | Yes      | Yes    | The unique id for the list |
+| `status`              | Yes      | Yes    | `subscribed`, `unsubscribed`, `cleaned` or `pending` |
+| `email_address`       | Yes      | No     | Email address for a subscriber |
+| `email_type`          | No       | No     | `html` or `text` |
+| `merge_fields[]`      | No       | No     | An individual merge var and value for a member |
+| `interests[]`         | No       | No     | The name of this field is the ID of the interest in question. |
+| `language`            | No       | No     | If set/detected, the subscriber’s language [ISO 3166 Country Code](https://dev.maxmind.com/geoip/legacy/codes/iso3166/) |
+| `vip`                 | No       | No     | VIP status for subscriber |
+| `location[latitude]`  | No       | No     | Subscriber location latitude |
+| `location[longitude]` | No       | No     | Subscriber location longitude |
 
 
 The above field names are **case-sensitive**.
