@@ -211,5 +211,6 @@ Some things to do, and ideas for potential features:
 - Edit members
 - Member deletion
 - Member activity
+- Sort members by date
 
 Brought to you by [Luke Youell](https://github.com/lukeyouell)
