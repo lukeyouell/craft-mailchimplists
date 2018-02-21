@@ -357,7 +357,6 @@ class Settings extends Model
     {
         return [
             [['apiKey'], 'string'],
-            [['countries', 'languages'], 'each', 'rule' => ['string']],
             [['apiKey'], 'required'],
         ];
     }
