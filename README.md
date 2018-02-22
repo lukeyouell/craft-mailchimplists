@@ -212,5 +212,7 @@ Some things to do, and ideas for potential features:
 - Member deletion
 - Member activity
 - Sort members by date
+- Dashboard widget
+- Custom progress bar parameters
 
 Brought to you by [Luke Youell](https://github.com/lukeyouell)
