@@ -208,7 +208,6 @@ Some things to do, and ideas for potential features:
 - List growth
 - List activity
 - Edit members
-- Member deletion
 - Member activity
 - Sort members by date
 - Dashboard widget
