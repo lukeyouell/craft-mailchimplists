@@ -21,31 +21,32 @@ use lukeyouell\mailchimplists\services\HttpService;
  * @package   MailchimpLists
  * @since     0.1.0
  */
-class CreateController extends Controller
+class MemberController extends Controller
 {
 
     // Protected Properties
     // =========================================================================
 
-    public function actionIndex()
+    public function actionUpdateStatus()
     {
         $this->requirePostRequest();
         $request = Craft::$app->getRequest();
 
+        // Fetch list id from hidden input
+        $listId = $request->getRequiredBodyParam('listId');
+        $memberId = $request->getRequiredBodyParam('memberId');
+        $memberStatus = $request->getRequiredBodyParam('status');
+
         // Set params
         $params = [
-          'name' => $request->post('name'),
-          'contact' => $request->post('contact'),
-          'permission_reminder' => $request->post('permission_reminder'),
-          'campaign_defaults' => $request->post('campaign_defaults'),
-          'email_type_option' => $request->post('email_type_option') ? true : false
+          'status' => $memberStatus,
         ];
 
-        // Post request to create list
-        $response = HttpService::request('POST', 'lists', $params);
+        // Patch request to update member status
+        $response = HttpService::request('PATCH', 'lists/'.$listId.'/members/'.$memberId, $params);
 
         if ($response['success'] and $response['statusCode'] === 200) {
-          Craft::$app->getSession()->setNotice('List created.');
+          Craft::$app->getSession()->setNotice('Member status updated.');
           return $this->redirectToPostedUrl();
         } elseif ($response['success'] and $response['statusCode'] !== 200) {
           Craft::$app->session->setFlash('errorBody', $response['body']);
@@ -54,7 +55,7 @@ class CreateController extends Controller
           Craft::$app->getSession()->setError($response['reason']);
         }
 
-        return $this->redirect('mailchimp-lists/create');
+        return $this->redirectToPostedUrl();
     }
 
 }

@@ -35,7 +35,7 @@ class DeleteController extends Controller
         // Fetch list id from hidden input
         $listId = $request->getRequiredBodyParam('listId');
 
-        // Patch request to update settings
+        // Delete request to delete list
         $response = HttpService::request('DELETE', 'lists/'.$listId);
 
         if ($response['success'] and $response['statusCode'] === 204) {
@@ -51,4 +51,28 @@ class DeleteController extends Controller
         return $this->redirectToPostedUrl();
     }
 
+    public function actionMember()
+    {
+        $this->requirePostRequest();
+        $request = Craft::$app->getRequest();
+
+        // Fetch list id from hidden input
+        $listId = $request->getRequiredBodyParam('listId');
+        $memberId = $request->getRequiredBodyParam('memberId');
+
+        // Delete request to delete member
+        $response = HttpService::request('DELETE', 'lists/'.$listId.'/members/'.$memberId);
+
+        if ($response['success'] and $response['statusCode'] === 204) {
+          Craft::$app->getSession()->setNotice('Member deleted.');
+          return $this->redirectToPostedUrl();
+        } elseif ($response['success'] and $response['statusCode'] !== 204) {
+          Craft::$app->session->setFlash('errorBody', $response['body']);
+          Craft::$app->getSession()->setError($response['statusCode'].' '.$response['reason']);
+        } else {
+          Craft::$app->getSession()->setError($response['reason']);
+        }
+
+        return $this->redirectToPostedUrl();
+    }
 }
