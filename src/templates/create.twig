@@ -6,7 +6,7 @@
 
 {% set settings = craft.app.plugins.getPlugin('mailchimp-lists').settings %}
 {% set errorBody = craft.app.session.hasFlash('errorBody') ? craft.app.session.getFlash('errorBody') : null %}
-{% set title = 'Create List' %}
+{% set title = 'MailChimp Lists' %}
 {% set fullPageForm = true %}
 
 {% set crumbs = {
@@ -59,7 +59,7 @@
 
   <div class="callout secondary">
 
-    {{ forms.textareaField({
+    {{ forms.textField({
         required:     true,
         label:        'Sender\'s name',
         instructions: 'The default from name for campaigns sent to this list.',
@@ -67,7 +67,7 @@
         placeholder:  'Sender\'s name'
     }) }}
 
-    {{ forms.textareaField({
+    {{ forms.textField({
         required:     true,
         label:        'Sender\'s email address',
         instructions: 'The default from email for campaigns sent to this list.',
@@ -75,7 +75,7 @@
         placeholder:  'Sender\'s email address'
     }) }}
 
-    {{ forms.textareaField({
+    {{ forms.textField({
         required:     true,
         label:        'Subject',
         instructions: 'The default subject line for campaigns sent to this list.',
