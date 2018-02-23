@@ -205,7 +205,6 @@ return [
 
 Some things to do, and ideas for potential features:
 
-- List deletion
 - List growth
 - List activity
 - Edit members
