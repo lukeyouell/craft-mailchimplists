@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+### Added
+- Ability to unsubscribe contacts
+
 ## 1.0.3 - 2018-02-22
 
 ### Fixed
