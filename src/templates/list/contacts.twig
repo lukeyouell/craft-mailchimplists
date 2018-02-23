@@ -35,6 +35,7 @@
                 <th scope="col">Status</th>
                 <th scope="col">Added</th>
                 <th scope="col">Last Changed</th>
+                <th scope="col"></th>
               </tr>
             </thead>
 
@@ -70,6 +71,29 @@
                   </td>
                   <td class="nowrap">
                     <div><code>{{ changed }}</code></div>
+                  </td>
+                  <td class="nowrap thin">
+                    <form method="post" accept-charset="UTF-8">
+                      {{ csrfInput() }}
+                      <input type="hidden" name="listId" value="{{ listId }}">
+                      <input type="hidden" name="memberId" value="{{ member.id }}">
+                      <div class="btngroup">
+                        <div class="btn menubtn" data-icon="settings"></div>
+                        <div class="menu" data-align="right">
+                          <ul>
+                            <li><a href="{{ url('mailchimp-lists/' ~ listId ~ '/contacts/' ~ member.id) }}">Overview</a></li>
+                            {% if member.status == 'subscribed' %}
+                              <li>
+                                <a class="formsubmit" data-action="mailchimp-lists/member/update-status" data-param="status" data-value="unsubscribed" data-confirm="Are you sure you want to change the subscription status of {{ member.email_address }}?">
+                                  Unsubscribe
+                                </a>
+                              </li>
+                            {% endif %}
+                            <li><a class="formsubmit error" data-action="mailchimp-lists/delete/member" data-confirm="Are you sure you want to delete {{ member.email_address }}?">Delete</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </form>
                   </td>
                 </tr>
 
