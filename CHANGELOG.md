@@ -2,7 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 1.0.2 - 2018-02-22
+
+### Added
+- Ability to delete lists
 
 ### Changed
 - Improved documentation
