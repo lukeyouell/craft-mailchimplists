@@ -62,7 +62,7 @@
 
         <div class="callout secondary">
 
-          {{ forms.textareaField({
+          {{ forms.textField({
               required:     true,
               label:        'Sender\'s name',
               instructions: 'The default from name for campaigns sent to this list.',
@@ -71,7 +71,7 @@
               value:        response.body.campaign_defaults.from_name
           }) }}
 
-          {{ forms.textareaField({
+          {{ forms.textField({
               required:     true,
               label:        'Sender\'s email address',
               instructions: 'The default from email for campaigns sent to this list.',
@@ -80,7 +80,7 @@
               value:        response.body.campaign_defaults.from_email
           }) }}
 
-          {{ forms.textareaField({
+          {{ forms.textField({
               required:     true,
               label:        'Subject',
               instructions: 'The default subject line for campaigns sent to this list.',
