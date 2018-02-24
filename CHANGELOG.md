@@ -7,6 +7,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Ability to unsubscribe contacts
 
+### Changed
+- Set minimum requirement to `^3.0.0-RC11`
+
 ## 1.0.3 - 2018-02-22
 
 ### Fixed
