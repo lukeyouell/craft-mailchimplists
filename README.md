@@ -8,7 +8,7 @@ Create, manage and monitor your MailChimp Lists from within Craft.
 
 ## Requirements
 
-This plugin requires Craft CMS 3.0.0-RC1 or later.
+This plugin requires Craft CMS 3.0.0-RC11 or later.
 
 ## Installation
 
