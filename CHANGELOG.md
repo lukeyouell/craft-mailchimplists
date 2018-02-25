@@ -2,13 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 1.0.4 - 2018-02-25
 
 ### Added
 - Ability to unsubscribe contacts
 
 ### Changed
-- Set minimum requirement to `^3.0.0-RC11`
+- Set Craft CMS minimum requirement to `^3.0.0-RC11`
 
 ## 1.0.3 - 2018-02-22
 
