@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+### Added
+- List activity
+
 ## 1.0.4 - 2018-02-25
 
 ### Added
