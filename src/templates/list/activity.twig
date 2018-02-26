@@ -1,0 +1,95 @@
+{% extends 'mailchimp-lists/list/layout' %}
+
+{% set response = craft.mailchimpLists.getListActivity(listId) %}
+
+{% set selectedTab = 'activity' %}
+
+{% block actionButton %}
+
+  <span class="btn" onClick="window.location.reload()" data-icon="refresh"></span>
+
+{% endblock %}
+
+{% set content %}
+
+  {% if response %}
+
+    {% if response.success %}
+
+      {% if response.statusCode == 200 %}
+
+        {% if response.body.activity|length %}
+
+          <table class="data fullwidth">
+
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Sent</th>
+                <th scope="col">Opens</th>
+                <th scope="col">Clicks</th>
+                <th scope="col">Bounces</th>
+                <th scope="col">Subs</th>
+                <th scope="col">Unsubs</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              {% for activity in response.body.activity %}
+
+                <tr>
+                  <th>
+                    <div>{{ craft.app.info.timezone ?
+                        activity.day|date('jS F Y', craft.app.info.timezone) :
+                        activity.day|date('jS F Y') }}</div>
+                  </th>
+                  <td class="nowrap">
+                    <div><code>{{ activity.emails_sent }}</code></div>
+                  </td>
+                  <td class="nowrap">
+                    <div><code>{{ activity.unique_opens }}</code></div>
+                  </td>
+                  <td class="nowrap">
+                    <div><code>{{ activity.recipient_clicks }}</code></div>
+                  </td>
+                  <td class="nowrap">
+                    <div><code>{{ activity.hard_bounce + activity.soft_bounce }}</code></div>
+                  </td>
+                  <td class="nowrap">
+                    <div><code>{{ activity.subs }}</code></div>
+                  </td>
+                  <td class="nowrap">
+                    <div><code>{{ activity.unsubs }}</code></div>
+                  </td>
+                </tr>
+
+              {% endfor %}
+
+            </tbody>
+
+          </table>
+
+        {% else %}
+
+          <div class="callout warning">
+            No activity found
+          </div>
+
+        {% endif %}
+
+      {% else %}
+
+        {% include 'mailchimp-lists/errors/client' %}
+
+      {% endif %}
+
+    {% else %}
+
+      {% include 'mailchimp-lists/errors/exception' %}
+
+    {% endif %}
+
+  {% endif %}
+
+{% endset %}
