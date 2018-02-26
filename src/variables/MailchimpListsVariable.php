@@ -57,6 +57,11 @@ class MailchimpListsVariable
     {
         return HttpService::request('GET', 'lists/'.$listId.'/members/'.$memberId);
     }
+    
+    public function getListActivity($listId = null)
+    {
+        return HttpService::request('GET', 'lists/'.$listId.'/activity');
+    }
 
     public function paginationUrl($url = null, $params = []) {
         return UrlHelper::urlWithParams($url, $params);
