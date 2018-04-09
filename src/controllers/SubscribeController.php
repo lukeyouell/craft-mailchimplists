@@ -37,13 +37,19 @@ class SubscribeController extends Controller
         // Fetch list id from hidden input
         $listId = $request->getRequiredBodyParam('listId') ? Craft::$app->security->validateData($request->post('listId')) : null;
 
+        // Cast Interests to boolean value
+        $interests = $request->post('interests', (object)[]);
+        foreach($interests as $key => $val) {
+          $interests[$key] = (bool)$val;
+        }
+        
         // Set params
         $params = [
           'email_address' => $request->post('email_address'),
           'email_type' => $request->post('email_type', ''),
           'status' => $request->getRequiredBodyParam('status') ? Craft::$app->security->validateData($request->post('status')) : 'pending',
           'merge_fields' => $request->post('merge_fields', (object)[]),
-          'interests' => $request->post('interests', (object)[]),
+          'interests' => $interests,
           'language' => $request->post('language', ''),
           'vip' => $request->post('vip') ? true : false,
           'location' => $request->post('location', (object)[]),
