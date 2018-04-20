@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+### Fixed
+- [Fix if birthday field is not defined](https://github.com/lukeyouell/craft-mailchimplists/pull/2)
 ## 1.0.5 - 2018-02-26
 
 ### Added
