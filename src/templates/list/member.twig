@@ -47,8 +47,8 @@
             </div>
             <div class="medium-9 cell">
               <p>
-                {{ response.body.merge_fields.FNAME ? response.body.merge_fields.FNAME }}
-                {{ response.body.merge_fields.LNAME ? response.body.merge_fields.LNAME }}
+                {{ response.body.merge_fields.FNAME ?? '' }}
+                {{ response.body.merge_fields.LNAME ?? '' }}
                 {{ (response.body.merge_fields.FNAME is not defined) and (response.body.merge_fields.LNAME is not defined) ? 'Undefined' }}
               </p>
             </div>
@@ -56,7 +56,7 @@
               <p><strong>Birthday</strong></p>
             </div>
             <div class="medium-9 cell">
-              <p>{{ response.body.merge_fields.BIRTHDAY ? response.body.merge_fields.BIRTHDAY : 'Undefined' }}</p>
+              <p>{{ response.body.merge_fields.BIRTHDAY ?? : 'Undefined' }}</p>
             </div>
             <div class="medium-3 cell">
               <p><strong>Added</strong></p>
