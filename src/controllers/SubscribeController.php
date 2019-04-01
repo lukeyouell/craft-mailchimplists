@@ -40,7 +40,7 @@ class SubscribeController extends Controller
         // Set params
         $params = [
           'email_address' => $request->post('email_address'),
-          'email_type' => $request->post('email_type', ''),
+          'email_type' => empty($request->post('email_type', '')) ? $request->post('email_type', '') : 'text',
           'status' => $request->getRequiredBodyParam('status') ? Craft::$app->security->validateData($request->post('status')) : 'pending',
           'merge_fields' => $request->post('merge_fields', (object)[]),
           'interests' => $request->post('interests', (object)[]),
