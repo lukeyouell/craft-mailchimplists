@@ -17,6 +17,7 @@
         <thead>
           <tr>
             <th scope="col">List</th>
+            <th scope="col">List ID</th>
             <th scope="col">Subscribers</th>
             <th scope="col">Unsubscribes</th>
             <th scope="col">Opens</th>
@@ -41,6 +42,9 @@
                 </a>
                 <div class="light">Created {{ created }}</div>
               </th>
+              <td class="nowrap">
+                <div class="light">{{ list.id }}</div>
+              </td>
               <td class="nowrap">
                 <div><code>{{ list.stats.member_count }}</code></div>
               </td>
@@ -93,3 +97,4 @@
   {% endif %}
 
 {% endif %}
+
